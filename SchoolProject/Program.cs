@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("MyConnection");
+builder.Services.AddDbContext<DbContext>(x => x.UseSqlServer(connectionString));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -25,7 +27,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-var connectionString = builder.Configuration.GetConnectionString("AppDb");
-builder.Services.AddDbContext<DbContext>(x => x.UseSqlServer(connectionString));
+
 
 app.Run();
